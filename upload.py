@@ -30,6 +30,7 @@ def plugin_main(image, layer):
     layer = pdb.gimp_image_merge_visible_layers(image, CLIP_TO_IMAGE)
     pdb.file_png_save2(image, layer, "/tmp/imgur_upload.png","imgur_upload.png", 0,5,0,0,0,0,0,0,0)
     imgur = upload_image('/tmp/imgur_upload.png')
+    clean = os.remove('/tmp/imgur_upload.png')
     print imgur['link']
     gimp.message("Sucessfully uploaded!\n{}".format(imgur['link']))
 

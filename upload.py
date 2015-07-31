@@ -4,6 +4,7 @@ from gimpfu import *
 import time
 import base64
 import json
+import os
 
 client_id = "75272777892320e"
 

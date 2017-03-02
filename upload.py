@@ -5,6 +5,7 @@ import time
 import base64
 import json
 import os
+import tempfile
 
 client_id = "75272777892320e"
 
@@ -29,9 +30,11 @@ def upload_image(path):
 def plugin_main(image, layer):
     image = pdb.gimp_image_duplicate(image)
     layer = pdb.gimp_image_merge_visible_layers(image, CLIP_TO_IMAGE)
-    pdb.file_png_save2(image, layer, "/tmp/imgur_upload.png","imgur_upload.png", 0,5,0,0,0,0,0,0,0)
-    imgur = upload_image('/tmp/imgur_upload.png')
-    clean = os.remove('/tmp/imgur_upload.png')
+    file  = tempfile.NamedTemporaryFile(suffix='.png')
+    file.close()
+    pdb.file_png_save2(image, layer, file.name, os.path.basename(file.name), 0,5,0,0,0,0,0,0,0)
+    imgur = upload_image(file.name)
+    clean = os.remove(file.name)
     print imgur['link']
     gimp.message("Sucessfully uploaded!\n{}".format(imgur['link']))
 
